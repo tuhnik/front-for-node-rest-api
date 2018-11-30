@@ -33,7 +33,7 @@ export default class Register extends Component {
         <div className="Reset">
         <form onSubmit={this.handleSubmit}>
         <FormGroup controlId="password" bsSize="large">
-          <ControlLabel>Password</ControlLabel>
+          <ControlLabel>New password</ControlLabel>
           <FormControl
             value={this.state.password}
             onChange={this.handleChange}
@@ -41,7 +41,7 @@ export default class Register extends Component {
           />
         </FormGroup>
         <FormGroup controlId="confirmPassword" bsSize="large">
-          <ControlLabel>Confirm Password</ControlLabel>
+          <ControlLabel>Confirm new password</ControlLabel>
           <FormControl
             value={this.state.confirmPassword}
             onChange={this.handleChange}

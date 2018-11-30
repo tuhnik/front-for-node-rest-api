@@ -52,7 +52,7 @@ export default class Register extends Component {
           />
         </FormGroup>
         <FormGroup controlId="confirmPassword" bsSize="large">
-          <ControlLabel>Confirm Password</ControlLabel>
+          <ControlLabel>Confirm password</ControlLabel>
           <FormControl
             value={this.state.confirmPassword}
             onChange={this.handleChange}
