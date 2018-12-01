@@ -1,14 +1,18 @@
 import React, { Component } from "react";
-import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+import { Button, FormGroup, FormControl, ControlLabel, Alert } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import axios from 'axios';
+import {postData} from '../API'
+import {connect} from 'react-redux'
+import {login} from '../actions'
 
 class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
       email: "",
-      password: ""
+      password: "",
+      error: "",
+      loading: false
     };
   }
 
@@ -20,26 +24,31 @@ class Login extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    axios.post('http://localhost:5000/users/login',{
-        email: this.state.email,
-        password: this.state.password
-      })
-    .then(response => {  
-        console.log(response.data)
+
+    postData('/users/login', {email: this.state.email, password: this.state.password})
+    .then(response => {
+      if(response.error) {
+        this.setState({loading: false, error: response.error})
+      }
+      else {
+        this.props.login(response)
+        this.setState({error: null})
+        this.setState({loading: false, error: null})
+        this.props.history.push("/users")
+      }     
     })
     .catch(error => {
-      this.props.login({ error: error.response.data.message })
+      this.setState({loading: false, error: error.message})  
     })
- 
-    // this.props.history.push("/users");
   }
-
-
 
   render() {
     return (
       <div className="Login">
         <form onSubmit={this.handleSubmit}>
+        {this.state.error && <Alert bsStyle="warning">
+                <strong>{this.state.error}</strong>
+              </Alert>}
           <FormGroup controlId="email" bsSize="large">
             <ControlLabel>Email</ControlLabel>
             <FormControl
@@ -47,6 +56,7 @@ class Login extends Component {
               type="text"
               value={this.state.email}
               onChange={this.handleChange}
+              autoComplete="username email"
             />
           </FormGroup>
           <FormGroup controlId="password" bsSize="large">
@@ -54,6 +64,7 @@ class Login extends Component {
             <FormControl
               value={this.state.password}
               onChange={this.handleChange}
+              autoComplete="current-password"
               type="password"
             />
           </FormGroup>
@@ -73,4 +84,4 @@ class Login extends Component {
   }
 }
 
-export default Login;
+export default connect(null, {login})(Login);

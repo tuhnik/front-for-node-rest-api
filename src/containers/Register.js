@@ -1,11 +1,12 @@
 import React, { Component } from "react";
+import {postData} from '../API'
 import {
   FormGroup,
   FormControl,
   ControlLabel,
-  Button
+  Button,
+  Alert
 } from "react-bootstrap";
-
 
 export default class Register extends Component {
   constructor(props) {
@@ -14,7 +15,10 @@ export default class Register extends Component {
     this.state = {
       email: "",
       password: "",
-      confirmPassword: ""
+      confirmPassword: "",
+      error: null,
+      message: "",
+      loading: false
     };
   }
 
@@ -24,23 +28,44 @@ export default class Register extends Component {
     });
   }
 
-  handleSubmit = async event => {
+  handleSubmit = event => {
     event.preventDefault();
-
+    this.setState({loading: true})
+    if(this.state.password !== this.state.confirmPassword) {
+      this.setState({error: "Passwords are not matching!"})
+      return
+    }
+    postData('/users/register', {email: this.state.email, password: this.state.password})
+    .then(response => {
+      if(response.error) {
+        this.setState({loading: false, error: response.error})
+      }
+      else {
+        this.setState({loading: false, error: null, message: "Registered successfully! Please check your email for activation link!"})
+      }     
+    })
+    .catch(error => {
+      this.setState({loading: false, error: error.message})  
+    })
   }
-
 
   render() {
     return (
         <div className="Register">
         <form onSubmit={this.handleSubmit}>
+        {this.state.error && <Alert bsStyle="danger">
+                <strong>{this.state.error}</strong>
+              </Alert>}
+        {this.state.message && <Alert bsStyle="warning">
+                <strong>{this.state.message}</strong>
+        </Alert>}      
         <FormGroup controlId="email" bsSize="large">
           <ControlLabel>Email</ControlLabel>
           <FormControl
             autoFocus
-            type="email"
             value={this.state.email}
             onChange={this.handleChange}
+            autoComplete="username email"
           />
         </FormGroup>
         <FormGroup controlId="password" bsSize="large">
@@ -48,6 +73,7 @@ export default class Register extends Component {
           <FormControl
             value={this.state.password}
             onChange={this.handleChange}
+            autoComplete="new-password"
             type="password"
           />
         </FormGroup>
@@ -56,6 +82,7 @@ export default class Register extends Component {
           <FormControl
             value={this.state.confirmPassword}
             onChange={this.handleChange}
+            autoComplete="new-password"
             type="password"
           />
         </FormGroup>

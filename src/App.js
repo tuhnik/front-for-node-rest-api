@@ -1,22 +1,17 @@
 import React, { Component } from 'react';
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { Nav, Navbar, NavItem } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import Routes from "./Routes";
-
+import {connect} from 'react-redux'
+import {logout} from './actions'
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isAuthenticated: false
-    };
-  }
 
-  userHasAuthenticated = authenticated => {
-    this.setState({ isAuthenticated: authenticated });
+  logout() {
+    this.props.logout()
+    this.props.history.push("/login")
   }
-
   render() {
     return <div className="App container">
         <Navbar fluid collapseOnSelect>
@@ -24,12 +19,16 @@ class App extends Component {
             <Navbar.Brand>
               <Link to="/">Home</Link>
             </Navbar.Brand>
+            {this.props.authed &&
+            <Navbar.Brand>
+              <Link to="/users">Users</Link>
+            </Navbar.Brand>}
             <Navbar.Toggle />
           </Navbar.Header>
           <Navbar.Collapse>
             <Nav pullRight>
-              {this.state.isAuthenticated
-            ? <NavItem onClick={this.handleLogout}>Logout</NavItem>
+              {this.props.authed
+            ? <NavItem onClick={()=>this.logout()}>Logout</NavItem>
             : <>
                 <LinkContainer to="/register">
                   <NavItem>Register</NavItem>
@@ -46,4 +45,9 @@ class App extends Component {
       </div>;
   }
 }
-export default App;
+
+const mapStateToProps = (state) => {
+  return {authed: state.authed, logout};
+}
+
+export default withRouter(connect(mapStateToProps, {logout})(App));

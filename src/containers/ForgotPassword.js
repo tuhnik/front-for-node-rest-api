@@ -1,11 +1,12 @@
 import React, { Component } from "react";
-import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+import { Button, FormGroup, FormControl, ControlLabel, Alert } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import {postData} from '../API'
 
 export default class ForgotPassword extends Component {
     constructor(props) {
       super(props);
-      this.state = { email: "" };
+      this.state = { email: "", error: "", message: "" };
     }
   
     handleChange = event => {
@@ -16,12 +17,27 @@ export default class ForgotPassword extends Component {
   
     handleSubmit = event => {
       event.preventDefault();
+      postData("/users/forgotpassword", {email: this.state.email}).then(res=>{
+        if(res.error) {
+          this.setState({error: res.error, message: null})
+        }
+        else {
+          console.log("success!")
+          this.setState({message: "Password reset link sent!", error: null})
+        }
+      })
     }
   
     render() {
       return (
         <div className="Forgot">
           <form onSubmit={this.handleSubmit}>
+          {this.state.error && <Alert bsStyle="danger">
+                <strong>{this.state.error}</strong>
+              </Alert>}
+          {this.state.message && <Alert bsStyle="warning">
+                  <strong>{this.state.message}</strong>
+          </Alert>}      
             <FormGroup controlId="email" bsSize="large">
               <ControlLabel>Email</ControlLabel>
               <FormControl
