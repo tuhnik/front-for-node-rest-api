@@ -6,7 +6,7 @@ import {postData} from '../API'
 export default class ForgotPassword extends Component {
     constructor(props) {
       super(props);
-      this.state = { email: "", error: "", message: "" };
+      this.state = { email: "", error: null, message: null };
     }
   
     handleChange = event => {
@@ -23,7 +23,7 @@ export default class ForgotPassword extends Component {
         }
         else {
           console.log("success!")
-          this.setState({message: "Password reset link sent!", error: null})
+          this.setState({message: "Password reset link sent!", error: null, email: ""})
         }
       })
     }

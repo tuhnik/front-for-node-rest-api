@@ -16,9 +16,9 @@ const Routes = (props) =>
     <Route path="/login" exact component={Login} />
     <Route path="/forgot" exact component={ForgotPassword} />
     <Route path="/register" exact component={Register} />
-    <Route path="/reset" exact component={ResetPassword} />
+    <Route path="/reset/:email/:token" exact component={ResetPassword} />
     {props.authed && <Route path="/users" exact component={Users} />}
-    <Route path="/activate/:id" exact component={Activate} />
+    <Route path="/activate/:token" exact component={Activate} />
     <Route component={NotFound} />
   </Switch>;
 

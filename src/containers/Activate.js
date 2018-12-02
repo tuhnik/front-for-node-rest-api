@@ -4,7 +4,7 @@ import axios from 'axios';
 export default class Home extends Component {
   state = {error: false, done: false}  
   componentDidMount(){
-      axios.get("http://localhost:5000/users/activate/" + this.props.match.params.id).then(response => {
+      axios.get("http://localhost:5000/users/activate/" + this.props.match.params.token).then(response => {
           this.setState({done: true})
     })
     .catch(error => this.setState({error: error.response.data.error, done: true}))
@@ -28,7 +28,6 @@ export default class Home extends Component {
         </>
       )
   }
-
 
   render() {
     return (

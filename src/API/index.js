@@ -22,3 +22,13 @@ export const getUsers = (url, token) => {
     })
     .then(response => response.json());
 }
+
+export const checkResetToken = (url, token) => {
+    return fetch(domain + url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json; charset=utf-8",
+        }
+    })
+    .then(response => response.json());
+}
