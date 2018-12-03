@@ -16,6 +16,8 @@ export default class Register extends Component {
       password: "",
       confirmPassword: "",
       tokenErrorMessage: "",
+      error: "",
+      message: "",
       token: false
     };
   }
@@ -24,7 +26,7 @@ export default class Register extends Component {
     userService.checkResetToken(this.props.match.params.email, this.props.match.params.token)
     .then(res=>{
       if(!res.error) {
-        this.setState({token: true})
+        this.setState({token: this.props.match.params.token, email: this.props.match.params.email})
       }
       else {
         this.setState({token: false, tokenErrorMessage: "Invalid or expired token!"})
@@ -42,7 +44,32 @@ export default class Register extends Component {
 
   handleSubmit = async event => {
     event.preventDefault();
+    if(this.state.password !== this.state.confirmPassword){
+      this.setState({error: "Passwords are not matching!"})
+      return;
+    }
+    userService.resetPassword({token: this.state.token, email: this.state.email, password: this.state.password}).then(res=>{
+      if(res.error) {
+        this.setState({error: res.error, message: ""})
+      }
+      else {
+        this.setState({message: res.message, error: "", password:"", confirmPassword: ""})
+      }
+    }).catch(err=>{
+      this.setState({error: err, message: ""})
+    })
 
+  }
+
+  showError = () => {
+    return (<Alert bsStyle="danger">
+          <strong>{this.state.error}</strong>
+    </Alert>)
+  }
+  showMessage = () => {
+    return (<Alert bsStyle="warning">
+          <strong>{this.state.message}</strong>
+    </Alert>)
   }
 
   render() {
@@ -51,8 +78,10 @@ export default class Register extends Component {
       {this.state.tokenErrorMessage && <Alert bsStyle="danger">
                 <strong>{this.state.tokenErrorMessage}</strong>
               </Alert>}
-      {this.state.token && 
+      {this.state.token &&  
         <form onSubmit={this.handleSubmit}>
+        {this.state.error && this.showError()}
+        {this.state.message && this.showMessage()}
         <FormGroup controlId="password" bsSize="large">
           <ControlLabel>New password</ControlLabel>
           <FormControl

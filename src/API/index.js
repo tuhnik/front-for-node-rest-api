@@ -3,7 +3,7 @@ const domain = 'http://localhost:5000'
 
 
 
-const login = (data = {}) => {
+const login = (data) => {
     return fetch(domain + "/users/login", {
         method: "POST",
         headers: {
@@ -15,7 +15,7 @@ const login = (data = {}) => {
 }
 
 
-const register = (data = {}) => {
+const register = (data) => {
     return fetch(domain + "/users/register", {
         method: "POST",
         headers: {
@@ -69,6 +69,16 @@ const activateUser = (token) => {
     .then(response => response.json());
 }
 
+const resetPassword = (data) => {
+    return fetch(domain +"/users/resetpassword", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json; charset=utf-8",
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json());
+}
 
 export const userService = {
     login,
@@ -76,5 +86,6 @@ export const userService = {
     getUsers,
     checkResetToken,
     forgotPassword,
-    activateUser
+    activateUser,
+    resetPassword
 };
