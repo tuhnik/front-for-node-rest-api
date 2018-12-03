@@ -47,7 +47,7 @@ class Login extends Component {
     return (
       <div className="Login">
         <form onSubmit={this.handleSubmit}>
-        {this.state.error && <Alert bsStyle="warning">
+        {this.state.error && <Alert bsStyle="danger">
                 <strong>{this.state.error}</strong>
               </Alert>}
           <FormGroup controlId="email" bsSize="large">

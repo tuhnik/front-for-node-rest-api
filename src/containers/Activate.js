@@ -11,7 +11,7 @@ export default class Home extends Component {
       }
       this.setState({done: true})
     }).catch(err => {
-      this.setState({error: err})
+      this.setState({error: err.message})
     })
   }
   showError(){

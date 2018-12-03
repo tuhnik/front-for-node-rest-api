@@ -22,9 +22,10 @@ export default class ForgotPassword extends Component {
           this.setState({error: res.error, message: null})
         }
         else {
-          console.log("success!")
           this.setState({message: "Password reset link sent!", error: null, email: ""})
         }
+      }).catch(err=>{
+        this.setState({error: err.message})
       })
     }
   
