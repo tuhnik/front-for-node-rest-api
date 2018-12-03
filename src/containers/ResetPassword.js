@@ -6,7 +6,7 @@ import {
   Button,
   Alert
 } from "react-bootstrap";
-import {checkResetToken} from '../API'
+import {userService} from '../API'
 
 export default class Register extends Component {
   constructor(props) {
@@ -21,7 +21,7 @@ export default class Register extends Component {
   }
   
   componentDidMount = () => {
-    checkResetToken("/users/checkresettoken/" + this.props.match.params.email + "/" +this.props.match.params.token)
+    userService.checkResetToken(this.props.match.params.email, this.props.match.params.token)
     .then(res=>{
       if(!res.error) {
         this.setState({token: true})

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Button, FormGroup, FormControl, ControlLabel, Alert } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import {postData} from '../API'
+import {userService} from '../API'
 import {connect} from 'react-redux'
 import {login} from '../actions'
 
@@ -25,7 +25,7 @@ class Login extends Component {
   handleSubmit = event => {
     event.preventDefault();
 
-    postData('/users/login', {email: this.state.email, password: this.state.password})
+    userService.login({email: this.state.email, password: this.state.password})
     .then(response => {
       if(response.error) {
         this.setState({loading: false, error: response.error})

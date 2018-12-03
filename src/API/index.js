@@ -1,8 +1,10 @@
 
-const domain = 'http://192.168.0.62:5000'
+const domain = 'http://localhost:5000'
 
-export const postData = (url = ``, data = {}) => {
-    return fetch(domain + url, {
+
+
+const login = (data = {}) => {
+    return fetch(domain + "/users/login", {
         method: "POST",
         headers: {
             "Content-Type": "application/json; charset=utf-8",
@@ -12,8 +14,32 @@ export const postData = (url = ``, data = {}) => {
     .then(response => response.json());
 }
 
-export const getUsers = (url, token) => {
-    return fetch(domain + url, {
+
+const register = (data = {}) => {
+    return fetch(domain + "/users/register", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json; charset=utf-8",
+        },
+        body: JSON.stringify(data),
+    })
+    .then(response => response.json());
+}
+
+
+const forgotPassword = (data = {}) => {
+    return fetch(domain + "/users/forgotpassword", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json; charset=utf-8",
+        },
+        body: JSON.stringify(data),
+    })
+    .then(response => response.json());
+}
+
+const getUsers = (token) => {
+    return fetch(domain + '/users', {
         method: "GET",
         headers: {
             "Content-Type": "application/json; charset=utf-8",
@@ -23,8 +49,8 @@ export const getUsers = (url, token) => {
     .then(response => response.json());
 }
 
-export const checkResetToken = (url, token) => {
-    return fetch(domain + url, {
+const checkResetToken = (email, token) => {
+    return fetch(domain +"/users/checkresettoken/" + email + "/" + token, {
         method: "POST",
         headers: {
             "Content-Type": "application/json; charset=utf-8",
@@ -32,3 +58,23 @@ export const checkResetToken = (url, token) => {
     })
     .then(response => response.json());
 }
+
+const activateUser = (token) => {
+    return fetch(domain + "/users/activate/"+ token, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json; charset=utf-8",
+        }
+    })
+    .then(response => response.json());
+}
+
+
+export const userService = {
+    login,
+    register,
+    getUsers,
+    checkResetToken,
+    forgotPassword,
+    activateUser
+};

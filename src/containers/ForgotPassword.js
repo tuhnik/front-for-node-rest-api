@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Button, FormGroup, FormControl, ControlLabel, Alert } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import {postData} from '../API'
+import {userService} from '../API'
 
 export default class ForgotPassword extends Component {
     constructor(props) {
@@ -17,7 +17,7 @@ export default class ForgotPassword extends Component {
   
     handleSubmit = event => {
       event.preventDefault();
-      postData("/users/forgotpassword", {email: this.state.email}).then(res=>{
+      userService.forgotPassword({email: this.state.email}).then(res=>{
         if(res.error) {
           this.setState({error: res.error, message: null})
         }

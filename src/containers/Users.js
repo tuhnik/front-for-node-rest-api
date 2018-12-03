@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import {connect} from 'react-redux'
 import {ListGroup, ListGroupItem} from 'react-bootstrap'
-import {getUsers} from '../API'
+import { userService } from '../API'
 
 class Users extends Component {
   state = {users: [], count: null, error: null}
   componentDidMount = () => {
-    getUsers('/users', this.props.token)
+    userService.getUsers(this.props.token)
     .then(res=>{
         if(res.error){
             this.setState({error: res.error})

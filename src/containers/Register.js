@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import {postData} from '../API'
+import {userService} from '../API'
 import {
   FormGroup,
   FormControl,
@@ -35,7 +35,7 @@ export default class Register extends Component {
       this.setState({error: "Passwords are not matching!"})
       return
     }
-    postData('/users/register', {email: this.state.email, password: this.state.password})
+    userService.register({email: this.state.email, password: this.state.password})
     .then(response => {
       if(response.error) {
         this.setState({loading: false, error: response.error})

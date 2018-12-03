@@ -1,16 +1,20 @@
 import React, { Component } from "react";
-import axios from 'axios';
+import {userService} from '../API';
 
 export default class Home extends Component {
   state = {error: false, done: false}  
-  componentDidMount(){
-      axios.get("http://192.168.0.62:5000/users/activate/" + this.props.match.params.token).then(response => {
-          this.setState({done: true})
-    })
-    .catch(error => this.setState({error: error.response.data.error, done: true}))
-  }
 
-  error(){
+  componentDidMount(){
+    userService.activateUser(this.props.match.params.token).then(res=>{
+      if(res.error) {
+        this.setState({error: res.error})
+      }
+      this.setState({done: true})
+    }).catch(err => {
+      this.setState({error: err})
+    })
+  }
+  showError(){
       return(
         <>
             <h1>There was a problem!</h1>
@@ -19,7 +23,7 @@ export default class Home extends Component {
       )
   }
 
-  success(){
+  showSuccess(){
     return(
         <>
             <h1>Welcome!</h1>
@@ -33,7 +37,7 @@ export default class Home extends Component {
     return (
       <div className="Home">
         {this.state.done && <div className="lander">
-         {this.state.error?this.error():this.success()}
+         {this.state.error?this.showError():this.showSuccess()}
         </div>} 
       </div>
     );
