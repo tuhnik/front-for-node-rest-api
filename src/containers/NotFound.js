@@ -4,7 +4,7 @@ export default class NotFound extends Component{
   state = {seconds: 5}
 
   componentDidMount(){
-    setInterval(()=>{
+    this.interval = setInterval(()=>{
       let seconds = this.state.seconds - 1
       this.setState({seconds}, ()=>{
         if(seconds <= 0) {
@@ -15,7 +15,7 @@ export default class NotFound extends Component{
     }, 1000)  
   }
   componentWillUnmount(){
-    //todo cancel timer
+    clearInterval(this.interval)
   }
 
   render() {
