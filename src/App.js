@@ -4,12 +4,24 @@ import { Nav, Navbar, NavItem } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import Routes from "./Routes";
 import {connect} from 'react-redux'
-import {logout} from './actions'
+import {login, logout} from './actions'
 
 class App extends Component {
 
+  componentDidMount() {
+    let token = localStorage.getItem("token")
+    let email = localStorage.getItem("email")
+    if(token && email) {
+      //todo check token in server
+      this.props.login({token, email})
+      this.props.history.push("/users")
+    }
+
+  }
   logout() {
     this.props.logout()
+    localStorage.removeItem("token")
+    localStorage.removeItem("email")
     this.props.history.push("/login")
   }
   render() {
@@ -47,7 +59,7 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return {authed: state.authed, logout};
+  return {authed: state.authed, logout, login};
 }
 
-export default withRouter(connect(mapStateToProps, {logout})(App));
+export default withRouter(connect(mapStateToProps, {logout, login})(App));

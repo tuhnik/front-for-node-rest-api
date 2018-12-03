@@ -1,5 +1,5 @@
 
-const domain = 'http://localhost:5000'
+const domain = 'http://192.168.0.62:5000'
 
 export const postData = (url = ``, data = {}) => {
     return fetch(domain + url, {

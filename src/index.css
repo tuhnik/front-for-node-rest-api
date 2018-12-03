@@ -13,6 +13,9 @@ code {
     monospace;
 }
 
+* {
+  outline: none;
+}
 .App {
   margin-top: 15px;
 }

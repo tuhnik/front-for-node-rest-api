@@ -32,7 +32,8 @@ class Login extends Component {
       }
       else {
         this.props.login(response)
-        this.setState({error: null})
+        localStorage.setItem('token', response.token);
+        localStorage.setItem('email', response.email);
         this.setState({loading: false, error: null})
         this.props.history.push("/users")
       }     

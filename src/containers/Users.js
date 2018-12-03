@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import {connect} from 'react-redux'
+import {ListGroup, ListGroupItem} from 'react-bootstrap'
 import {getUsers} from '../API'
 
 class Users extends Component {
@@ -17,17 +18,22 @@ class Users extends Component {
     .catch(err=>{
         this.setState({error: err})
     })
-  }  
+  }
+  userClicked = (el) => {
+    console.log(el) 
+  }
   render() {
     const  {users} = this.state
     return (
       <div className="Home">
-        <div className="lander">
+        <div>
           <h1>User table</h1>
-          <p>This is a secret table</p>
-          {users.length && users.map((el,i)=>{
-              return <div key={i}>{el.email}</div>
+          <p>Total users: {this.state.count}</p>
+          <ListGroup>
+          {users.length && users.map((el,i)=>{       
+              return  <ListGroupItem onClick={()=>this.userClicked(el)} key={i}>{el.email}</ListGroupItem>
           })}
+          </ListGroup>
         </div>
       </div>
     );
