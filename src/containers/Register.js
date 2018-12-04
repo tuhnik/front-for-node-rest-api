@@ -30,18 +30,18 @@ export default class Register extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    this.setState({loading: true})
     if(this.state.password !== this.state.confirmPassword) {
       this.setState({error: "Passwords are not matching!"})
       return
     }
+    this.setState({loading: true})
     userService.register({email: this.state.email, password: this.state.password})
     .then(response => {
       if(response.error) {
         this.setState({loading: false, error: response.error})
       }
       else {
-        this.setState({loading: false, error: null, message: "Registered successfully! Please check your email for activation link!"})
+        this.setState({password: "", confirmPassword: "", email: "", loading: false, error: null, message: "Registered successfully! Please check your email for activation link!"})
       }     
     })
     .catch(error => {
@@ -90,6 +90,7 @@ export default class Register extends Component {
               block
               bsSize="large"
               type="submit"
+              disabled={this.state.loading}
             >
               Register
         </Button>

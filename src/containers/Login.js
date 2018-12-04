@@ -24,7 +24,7 @@ class Login extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-
+    this.setState({loading: true})
     userService.login({email: this.state.email, password: this.state.password})
     .then(response => {
       if(response.error) {
@@ -73,6 +73,7 @@ class Login extends Component {
             block
             bsSize="large"
             type="submit"
+            disabled={this.state.loading}
           >
             Login
           </Button>

@@ -1,6 +1,10 @@
+// import store from '../store.js'
 const domain = 'http://localhost:5000'
 
 
+// store.subscribe( () => {
+//     console.log('state\n', store.getState())
+//   });
 
 
 const login = (data) => {

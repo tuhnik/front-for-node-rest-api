@@ -14,6 +14,7 @@ export default class Register extends Component {
 
     this.state = {
       password: "",
+      loading: false,
       confirmPassword: "",
       tokenErrorMessage: "",
       error: "",
@@ -48,15 +49,16 @@ export default class Register extends Component {
       this.setState({error: "Passwords are not matching!"})
       return;
     }
+    this.setState({loading: true})
     userService.resetPassword({token: this.state.token, email: this.state.email, password: this.state.password}).then(res=>{
       if(res.error) {
-        this.setState({error: res.error, message: ""})
+        this.setState({error: res.error, message: "", loading: false})
       }
       else {
-        this.setState({message: res.message, error: "", password:"", confirmPassword: ""})
+        this.setState({message: res.message, error: "", password:"", confirmPassword: "", loading: false})
       }
     }).catch(err=>{
-      this.setState({error: err, message: ""})
+      this.setState({error: err, message: "", loading: false})
     })
 
   }
@@ -102,6 +104,7 @@ export default class Register extends Component {
               block
               bsSize="large"
               type="submit"
+              disabled={this.state.loading}
             >
               Change
         </Button>

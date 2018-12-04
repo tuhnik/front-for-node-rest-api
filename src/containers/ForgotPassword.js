@@ -6,7 +6,7 @@ import {userService} from '../API'
 export default class ForgotPassword extends Component {
     constructor(props) {
       super(props);
-      this.state = { email: "", error: null, message: null };
+      this.state = { email: "", error: null, message: null, loading: false };
     }
   
     handleChange = event => {
@@ -17,15 +17,16 @@ export default class ForgotPassword extends Component {
   
     handleSubmit = event => {
       event.preventDefault();
+      this.setState({loading: true})
       userService.forgotPassword({email: this.state.email}).then(res=>{
         if(res.error) {
-          this.setState({error: res.error, message: null})
+          this.setState({error: res.error, message: null, loading: false})
         }
         else {
-          this.setState({message: "Password reset link sent!", error: null, email: ""})
+          this.setState({message: "Password reset link sent!", error: null, email: "", loading: false})
         }
       }).catch(err=>{
-        this.setState({error: err.message})
+        this.setState({error: err.message, loading: false})
       })
     }
   
@@ -50,6 +51,7 @@ export default class ForgotPassword extends Component {
             </FormGroup>
             <Button
               block
+              disabled={this.state.loading}
               bsSize="large"
               type="submit"
             >
