@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Switch, withRouter } from "react-router-dom";
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import Home from "./containers/Home";
 import NotFound from "./containers/NotFound";
 import Login from "./containers/Login";

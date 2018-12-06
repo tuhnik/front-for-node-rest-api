@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { Button, FormGroup, FormControl, ControlLabel, Alert } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import {userService} from '../API'
-import {connect} from 'react-redux'
-import {login} from '../actions'
+import { userService } from '../API'
+import { connect } from 'react-redux'
+import { login } from '../actions'
 
 class Login extends Component {
   constructor(props) {
@@ -28,7 +28,7 @@ class Login extends Component {
     userService.login({email: this.state.email, password: this.state.password})
     .then(response => {
       if(response.error) {
-        this.setState({loading: false, error: response.error})
+        this.setState({loading: false, error: response.error, email: "", password: ""})
       }
       else {
         this.props.login(response)

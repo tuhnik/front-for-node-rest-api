@@ -14,7 +14,7 @@ code {
 }
 
 * {
-  outline: none;
+  outline: none !important;
 }
 .App {
   margin-top: 15px;
@@ -56,4 +56,10 @@ code {
 
 .forgot {
   padding-top: 1rem;
+}
+
+.user-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

@@ -6,7 +6,7 @@ import {
   Button,
   Alert
 } from "react-bootstrap";
-import {userService} from '../API'
+import { userService } from '../API'
 
 export default class Register extends Component {
   constructor(props) {
@@ -68,6 +68,7 @@ export default class Register extends Component {
           <strong>{this.state.error}</strong>
     </Alert>)
   }
+  
   showMessage = () => {
     return (<Alert bsStyle="warning">
           <strong>{this.state.message}</strong>
@@ -107,8 +108,7 @@ export default class Register extends Component {
               disabled={this.state.loading}
             >
               Change
-        </Button>
-      
+        </Button>    
       </form>}
       </div>
     );

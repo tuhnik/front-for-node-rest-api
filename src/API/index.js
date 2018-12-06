@@ -1,11 +1,14 @@
-// import store from '../store.js'
+import store from '../store.js'
 const domain = 'http://localhost:5000'
 
+let token = ""
 
-// store.subscribe( () => {
-//     console.log('state\n', store.getState())
-//   });
-
+store.subscribe( () => {
+    const state = store.getState()
+    if(state.token){
+        token = state.token
+    }
+  });
 
 const login = (data) => {
     return fetch(domain + "/users/login", {
@@ -18,7 +21,6 @@ const login = (data) => {
     .then(response => response.json());
 }
 
-
 const register = (data) => {
     return fetch(domain + "/users/register", {
         method: "POST",
@@ -29,7 +31,6 @@ const register = (data) => {
     })
     .then(response => response.json());
 }
-
 
 const forgotPassword = (data = {}) => {
     return fetch(domain + "/users/forgotpassword", {
@@ -42,7 +43,7 @@ const forgotPassword = (data = {}) => {
     .then(response => response.json());
 }
 
-const getUsers = (token) => {
+const getUsers = () => {
     return fetch(domain + '/users', {
         method: "GET",
         headers: {
@@ -84,6 +85,17 @@ const resetPassword = (data) => {
     .then(response => response.json());
 }
 
+const deleteUser = (id) => {
+    return fetch(domain +"/users/" + id, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json; charset=utf-8",
+            "Authorization": "Bearer " + token
+        }
+    })
+    .then(response => response.json());
+}
+
 export const userService = {
     login,
     register,
@@ -91,5 +103,6 @@ export const userService = {
     checkResetToken,
     forgotPassword,
     activateUser,
-    resetPassword
+    resetPassword,
+    deleteUser
 };

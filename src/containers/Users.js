@@ -1,12 +1,16 @@
 import React, { Component } from "react";
-import {connect} from 'react-redux'
-import {ListGroup, ListGroupItem} from 'react-bootstrap'
+import { ListGroup, ListGroupItem, Button, Glyphicon, ButtonGroup } from 'react-bootstrap'
 import { userService } from '../API'
+import DeleteConfirmation from '../components/DeleteConfirmation'
 
 class Users extends Component {
   state = {users: [], count: null, error: null}
   componentDidMount = () => {
-    userService.getUsers(this.props.token)
+    this.getUsers()
+  }
+
+  getUsers = () => {
+    userService.getUsers()
     .then(res=>{
         if(res.error){
             this.setState({error: res.error})
@@ -19,29 +23,36 @@ class Users extends Component {
         this.setState({error: err})
     })
   }
-  userClicked = (el) => {
-    console.log(el) 
+
+  deleteUserConfirm = (el) => {
+    this.setState({toDelete: el})
   }
+
+  deleteUserCancel = () => {
+    this.setState({toDelete: ""})
+  }
+
   render() {
     const  {users} = this.state
     return (
-      <div className="Home">
         <div>
+          {this.state.toDelete && <DeleteConfirmation getUsers={this.getUsers} el={this.state.toDelete} cancel={this.deleteUserCancel}/>}
           <h1>User table</h1>
           <p>Total users: {this.state.count}</p>
           <ListGroup>
           {users.length && users.map((el,i)=>{       
-              return  <ListGroupItem onClick={()=>this.userClicked(el)} key={i}>{el.email}</ListGroupItem>
+              return  <ListGroupItem className="user-item" key={i}>{el.email}   
+              <ButtonGroup>
+                <Button><Glyphicon glyph="eye-open" /> View</Button>
+                <Button onClick={()=>this.deleteUserConfirm(el)}><Glyphicon glyph="remove" /> Delete</Button>              
+              </ButtonGroup>
+            </ListGroupItem>
           })}
           </ListGroup>
         </div>
-      </div>
+    
     );
   }
 }
 
-function mapStateToProps(state) {
-    return {token: state.token}
-}
-
-export default connect(mapStateToProps)(Users)
+export default Users
