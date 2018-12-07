@@ -21,9 +21,7 @@ render(){
       <Modal.Header>
         <Modal.Title>Warning</Modal.Title>
       </Modal.Header>
-    
       <Modal.Body>Are you sure you want to delete <b>{this.props.el.email}</b>?</Modal.Body>
-    
       <Modal.Footer>
         <Button onClick={this.props.cancel}>Cancel</Button>
         <Button onClick={()=>this.delete(this.props.el._id)}bsStyle="primary">Delete</Button>

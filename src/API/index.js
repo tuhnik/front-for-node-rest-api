@@ -54,6 +54,17 @@ const getUsers = () => {
     .then(response => response.json());
 }
 
+const getUser = (id) => {
+    return fetch(domain + '/users/' + id, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json; charset=utf-8",
+            "Authorization": "Bearer " + token
+        }
+    })
+    .then(response => response.json());
+}
+
 const checkResetToken = (email, token) => {
     return fetch(domain +"/users/checkresettoken/" + email + "/" + token, {
         method: "POST",
@@ -100,6 +111,7 @@ export const userService = {
     login,
     register,
     getUsers,
+    getUser,
     checkResetToken,
     forgotPassword,
     activateUser,
