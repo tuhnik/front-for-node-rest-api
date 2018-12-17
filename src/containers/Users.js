@@ -17,7 +17,7 @@ class Users extends Component {
     .then(res=>{
         if(res.error){
             this.setState({error: res.error})
-            this.props.dispatch(this.props.logout)
+            this.props.dispatch(logout())
         }
         else {
             this.setState({users: res.users, count: res.count})
@@ -68,4 +68,8 @@ class Users extends Component {
   }
 }
 
-export default connect(null, {logout})(Users)
+function mapDispatchToProps(dispatch) {
+  return {dispatch};
+}
+
+export default connect(null, mapDispatchToProps)(Users)
