@@ -3,6 +3,8 @@ import { ListGroup, ListGroupItem, Button, Glyphicon, ButtonGroup } from 'react-
 import { userService } from '../API'
 import DeleteConfirmation from '../components/DeleteConfirmation'
 import ShowUserInfo from '../components/ShowUserInfo'
+import { logout } from '../actions'
+import { connect } from 'react-redux'
 
 class Users extends Component {
   state = {users: [], count: null, error: null}
@@ -15,6 +17,7 @@ class Users extends Component {
     .then(res=>{
         if(res.error){
             this.setState({error: res.error})
+            this.props.dispatch(this.props.logout)
         }
         else {
             this.setState({users: res.users, count: res.count})
@@ -41,15 +44,16 @@ class Users extends Component {
   }
 
   render() {
-    const  {users} = this.state
+    const  {users, error} = this.state
     return (
         <div>
           {this.state.toDelete && <DeleteConfirmation getUsers={this.getUsers} el={this.state.toDelete} cancel={this.deleteUserCancel}/>}
           {this.state.showUserInfo && <ShowUserInfo id={this.state.showUserInfo} close={this.closeUserInfo}/>}
           <h1>User table</h1>
-          <p>Total users: {this.state.count}</p>
+          {users.length > 0 && <p>Total users: {this.state.count}</p>}
+          {error && <p>Error: {error.message}</p>}
           <ListGroup>
-          {users.length && users.map((el,i)=>{       
+          {users.length > 0 && users.map((el,i)=>{       
               return  <ListGroupItem className="user-item" key={i}>{el.email}   
               <ButtonGroup>
                 <Button onClick={()=>this.userInfo(el._id)}><Glyphicon glyph="eye-open" /> View</Button>
@@ -64,4 +68,4 @@ class Users extends Component {
   }
 }
 
-export default Users
+export default connect(null, {logout})(Users)
