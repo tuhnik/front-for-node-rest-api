@@ -3,12 +3,15 @@ const domain = 'http://localhost:5000'
 
 let token = ""
 
+document.store = store
+
 store.subscribe( () => {
     const state = store.getState()
+    console.log(state)
     if(state.token){
         token = state.token
     }
-  });
+});
 
 const login = (data) => {
     return fetch(domain + "/users/login", {

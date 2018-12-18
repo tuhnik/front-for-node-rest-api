@@ -6,13 +6,14 @@ import Routes from "./Routes";
 import {connect} from 'react-redux'
 import {login, logout} from './actions'
 
+
 class App extends Component {
 
   componentDidMount() {
     let token = localStorage.getItem("token")
     let email = localStorage.getItem("email")
     if(token && email) {
-      //todo check token in server
+      //todo check token in server 
       this.props.login({token, email})
       this.props.history.push("/users")
     }
