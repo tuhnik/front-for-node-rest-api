@@ -78,6 +78,17 @@ const checkResetToken = (email, token) => {
     .then(response => response.json());
 }
 
+const checkToken = (token) => {
+    return fetch(domain + "/users/checktoken", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json; charset=utf-8",
+            "Authorization": "Bearer " + token
+        }
+    })
+    .then(response => response.json());
+}
+
 const activateUser = (token) => {
     return fetch(domain + "/users/activate/"+ token, {
         method: "GET",
@@ -115,6 +126,7 @@ export const userService = {
     register,
     getUsers,
     getUser,
+    checkToken,
     checkResetToken,
     forgotPassword,
     activateUser,

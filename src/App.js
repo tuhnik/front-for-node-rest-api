@@ -3,19 +3,37 @@ import { Link, withRouter } from "react-router-dom";
 import { Nav, Navbar, NavItem } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import Routes from "./Routes";
+import { userService } from './API'
 import {connect} from 'react-redux'
 import {login, logout} from './actions'
 
-
 class App extends Component {
+
+  state={loading: true}
 
   componentDidMount() {
     let token = localStorage.getItem("token")
     let email = localStorage.getItem("email")
     if(token && email) {
-      //todo check token in server 
-      this.props.login({token, email})
-      this.props.history.push("/users")
+
+      userService.checkToken(token)
+      .then(response => {
+        this.setState({loading: false})
+        if(!response.error) {
+          this.props.login({token, email})
+          this.props.history.push("/users")
+        }   
+        else {
+          console.log(response.error)
+          this.props.logout()
+          localStorage.removeItem("token")
+          localStorage.removeItem("email")
+        }
+      })
+      .catch(error => {
+        this.setState({loading: false})
+      })
+      
     }
 
   }
@@ -54,7 +72,7 @@ class App extends Component {
             </Nav>
           </Navbar.Collapse>
         </Navbar>
-        <Routes />
+        {!this.state.loading && <Routes />}
       </div>;
   }
 }
