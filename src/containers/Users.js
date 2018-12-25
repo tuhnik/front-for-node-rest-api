@@ -62,8 +62,7 @@ class Users extends Component {
             </ListGroupItem>
           })}
           </ListGroup>
-        </div>
-    
+        </div> 
     );
   }
 }
