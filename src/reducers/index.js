@@ -11,11 +11,9 @@ const rootReducer = (state = initialState, action) => {
         return newstate
     }
 
-    if(action.type === "LOGOUT") {
-        let newstate = {...state}
+    if(action.type === "LOGOUT") {       
         let initial = {...initialState}
-            newstate = initial
-        return newstate
+        return initial
     }
 
     return state
