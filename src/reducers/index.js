@@ -12,8 +12,7 @@ const rootReducer = (state = initialState, action) => {
     }
 
     if(action.type === "LOGOUT") {       
-        let initial = {...initialState}
-        return initial
+        return {...initialState}
     }
 
     return state
