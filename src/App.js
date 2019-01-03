@@ -15,7 +15,6 @@ class App extends Component {
     let token = localStorage.getItem("token")
     let email = localStorage.getItem("email")
     if(token && email) {
-
       userService.checkToken(token)
       .then(response => {
         this.setState({loading: false})
@@ -32,8 +31,7 @@ class App extends Component {
       })
       .catch(error => {
         this.setState({loading: false})
-      })
-      
+      })  
     }
 
   }
